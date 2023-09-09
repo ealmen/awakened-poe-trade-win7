@@ -2,10 +2,15 @@
 
 ## Pre-requisit: Install and use latest version of node.js
 
-This requires a bit of tinkering to work in Windows 7, or you can use a modern Windows 10+ machine to compile from.
+Node.js has dropped official support for Windows 7 since v14, but unofficially still works quite well on Windows 7.
 
-Follow this guid if you want to force it in Windows 7
+It is _much_ easier to use a modern version of node.js, so either force it in Windows 7, or use a Windows 10+ machine to compile this from.
 
+[Follow this guid if you want to force it in Windows 7](https://github.com/ealmen/awakened-poe-trade/blob/master/Install%20latest%20Node.js%20in%20Windows%207.md)
+
+The rest of this guide assumes you are using Node.js v18+
+
+-----
 
 ## Download source code for Awakaned POE Trade, and extract to C:\apt
 (I've seen some issues with long path names, and non-ascii characters in C:\Users\your ñämé, so work in simple C:\apt is recommended, even if not strictly necessary)

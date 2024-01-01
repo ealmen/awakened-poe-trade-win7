@@ -73,9 +73,37 @@ yarn run package			// packages the .exe's up from what you've compiled so far. t
 
 </details>
 
+
+<details>
+
+<summary>If you want auto-update to work on GitHub </summary>
+
+Edit C:\apt\main\packages.json, and change the repository url to your own GitHub page.
+
+Generate a GitHub access token from https://github.com/settings/tokens/new. Give it "repo" scope/permission.   
+Create a new Windows environment variable called "GH_TOKEN" (excluding the "") with the value from the access token.
+
+When compiling, the last step must be "yarn run package -p always". This uploads the files to a new draft of a release on your GitHub page, and does some special magic extra to get auto update to work. latest.yml and the blockmap file is needed. Manually uploading these files to your own release doesn't work. Electron-builder has to upload the files itself.
+
+So, full compile commands are:
+```
+cd C:\apt\renderer
+yarn
+yarn run make-index-files
+yarn run lint
+yarn run build
+cd C:\apt\main
+yarn
+yarn run build
+yarn run package -p always
+```
+
+Go to your releases page on GitHub, and you’ll find a new draft there. Edit the details there, and publish it.
+</details>
+
+
 > If you want, you can also use "yarn run dev" to just run it without compiling it to a .exe. It might be faster to trouble shoot that way.  
-> You need to run dev in two cmd-windows, one in renderer and one in main. The one in renderer is pickier, and needs to run all/some of the other commands first.  
-> I struggled getting this to work, with http 404 errors and wrong ports used, but didn't spend much time on it. I think it was because I didn't first run make-index-files and lint.
+> You need to run dev in two cmd-windows, one in renderer and one in main. And you need to have run "yarn run make-index-files" and "yarn run lint" in renderer first.
 
 
 -------------------

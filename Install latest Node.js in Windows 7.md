@@ -1,7 +1,7 @@
-Update:
-The guide below doesn't work that well anymore with newer node.js versions.
-Using an older version of node.js still works somewhat as of writing this, but this will become more and more of an issue going forward.
-I would not attempt this anymore myself if I still needed it.
+Update:  
+The guide below doesn't work that well anymore with newer node.js versions.  
+Using an older version of node.js still works somewhat as of writing this, but this will become more and more of an issue going forward.  
+I would not attempt this anymore myself if I still needed it.  
 Use another Windows 10 machine, or use a VM of Windows 10 to compile this from will save you a lot of extra work.
 
 

@@ -43,7 +43,7 @@ export class HttpProxy {
       for (let key in req.headers) {
         proxyReq.setHeader(String(key), String(req.headers[key]));
       }
-	    proxyReq.setHeader('user-agent', 'app.userAgentFallback')
+      proxyReq.setHeader('user-agent', 'app.userAgentFallback')
       
       proxyReq.addListener('response', (proxyRes) => {
         const resHeaders = { ...proxyRes.headers }

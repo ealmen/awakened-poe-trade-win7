@@ -89,7 +89,7 @@ interface FilterRange { min?: number, max?: number }
 
 interface TradeRequest { /* eslint-disable camelcase */
   query: {
-    status: { option: 'online' | 'onlineleague' | 'any' }
+    status: { option: 'online' | 'securable' | 'available' | 'any' }
     name?: string | { discriminator: string, option: string }
     type?: string | { discriminator: string, option: string }
     stats: Array<{
@@ -136,6 +136,7 @@ interface TradeRequest { /* eslint-disable camelcase */
           identified?: FilterBoolean
           stack_size?: FilterRange
           memory_level?: FilterRange
+          foulborn_item?: FilterBoolean
         }
       }
       armour_filters?: {
@@ -257,7 +258,7 @@ export function createTradeRequest (filters: ItemFilters, stats: StatFilter[], i
       status: {
         option: filters.trade.offline
           ? 'any'
-          : (filters.trade.onlineInLeague ? 'onlineleague' : 'online')
+          : (filters.trade.merchantOnly ? 'securable' : 'available')
       },
       stats: [
         { type: 'and', filters: [] }
@@ -318,6 +319,9 @@ export function createTradeRequest (filters: ItemFilters, stats: StatFilter[], i
   }
   if (filters.fractured?.value === false) {
     propSet(query.filters, 'misc_filters.filters.fractured_item.option', String(false))
+  }
+  if (filters.foulborn?.value === false) {
+    propSet(query.filters, 'misc_filters.filters.foulborn_item.option', String(false))
   }
   if (filters.mirrored) {
     if (filters.mirrored.disabled) {

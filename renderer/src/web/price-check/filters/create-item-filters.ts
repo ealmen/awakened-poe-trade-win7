@@ -25,6 +25,7 @@ export function createFilters (
     trade: {
       offline: false,
       onlineInLeague: false,
+      merchantOnly: false,
       listed: undefined,
       currency: opts.currency,
       league: opts.league,
@@ -340,6 +341,12 @@ export function createFilters (
       if (filters.itemLevel) {
         filters.itemLevel.disabled = false
       }
+    }
+  }
+
+  if (item.rarity === ItemRarity.Unique) {
+    filters.foulborn = {
+      value: Boolean(item.isFoulborn)
     }
   }
 

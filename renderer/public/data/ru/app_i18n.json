@@ -181,6 +181,7 @@
     "tag_variant": "вариант",
     "tag_corrupted": "осквернено",
     "tag_synthesised": "синтезирован",
+    "tag_foulborn": "нечестивый",
     "tag_eldritch": "зловещий",
     "tag_pseudo": "псевдо",
     "tag_explicit": "свойство",
@@ -197,6 +198,7 @@
   "online_filter": {
     "offline_toggle": "Офлайн и Онлайн",
     "in_league_toggle": "В лиге",
+    "merchant_toggle": "Только торговец",
     "listed_any_time": "Любое время",
     "listed_1day": "До 1-го дня",
     "listed_3days": "До 3-х дней",

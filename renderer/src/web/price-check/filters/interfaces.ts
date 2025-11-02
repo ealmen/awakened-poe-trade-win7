@@ -41,6 +41,9 @@ export interface ItemFilters {
   foil?: {
     disabled: boolean
   }
+  foulborn?: {
+    value: boolean
+  }
   influences?: Array<{
     value: ItemInfluence
     disabled: boolean
@@ -67,6 +70,7 @@ export interface ItemFilters {
   trade: {
     offline: boolean
     onlineInLeague: boolean
+    merchantOnly: boolean
     listed: string | undefined
     currency: string | undefined
     league: string
@@ -139,6 +143,7 @@ export enum FilterTag {
   Fractured = 'fractured',
   Corrupted = 'corrupted',
   Synthesised = 'synthesised',
+  Foulborn = 'foulborn',
   Eldritch = 'eldritch',
   Variant = 'variant',
   Property = 'property',

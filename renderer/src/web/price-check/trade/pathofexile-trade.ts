@@ -49,7 +49,8 @@ export const CATEGORY_TO_TRADE_ID = new Map([
   [ItemCategory.SanctumRelic, 'sanctum.relic'],
   [ItemCategory.Tincture, 'tincture'],
   [ItemCategory.Charm, 'azmeri.charm'],
-  [ItemCategory.Idol, 'idol']
+  [ItemCategory.Idol, 'idol'],
+  [ItemCategory.Graft, 'graft']
 ])
 
 const TOTAL_MODS_TEXT = {
@@ -275,7 +276,7 @@ export function createTradeRequest (filters: ItemFilters, stats: StatFilter[], i
     propSet(query.filters, 'trade_filters.filters.price.option', filters.trade.currency)
   }
 
-  if (filters.trade.collapseListings === 'api') {
+  if (filters.trade.collapseListings === 'api' && (filters.trade.offline || !filters.trade.merchantOnly)) {
     propSet(query.filters, 'trade_filters.filters.collapse.option', String(true))
   }
 

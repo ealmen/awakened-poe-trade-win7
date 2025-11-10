@@ -1,5 +1,6 @@
 import type { ItemFilters } from './interfaces'
 import { ParsedItem, ItemCategory, ItemRarity } from '@/parser'
+import { MAGIC_ONLY_OR_UNIQUE_ITEM, CONSUMABLE_CRAFTABLE_ITEM } from '@/parser/meta'
 import { tradeTag } from '../trade/common'
 import { ModifierType } from '@/parser/modifiers'
 import { BaseType, ITEM_BY_REF } from '@/assets/data'
@@ -26,11 +27,20 @@ export function createFilters (
     trade: {
       offline: false,
       onlineInLeague: false,
-      merchantOnly: !PERMANENT_SC.includes(opts.league),
+      merchantOnly: !PERMANENT_SC.includes(opts.league) &&
+        item.category !== ItemCategory.DivinationCard,
       listed: undefined,
       currency: opts.currency,
       league: opts.league,
       collapseListings: opts.collapseListings
+    }
+  }
+
+  if (!opts.currency) {
+    if ((!item.info.craftable || CONSUMABLE_CRAFTABLE_ITEM.has(item.category!)) &&
+      item.rarity !== ItemRarity.Unique
+    ) {
+      filters.trade.currency = 'chaos_divine'
     }
   }
 
@@ -40,7 +50,7 @@ export function createFilters (
   if (item.category === ItemCategory.CapturedBeast) {
     filters.searchExact = {
       baseType: item.info.name,
-      baseTypeTrade: item.info.refName // NOTE: always English on trade
+      baseTypeTrade: t(opts, item.info)
     }
     return filters
   }
@@ -240,7 +250,18 @@ export function createFilters (
 
   if (forAdornedJewel) {
     filters.rarity = {
-      value: 'magic'
+      value: 'magic',
+      disabled: false
+    }
+  } else if (
+    opts.exact &&
+    item.rarity === ItemRarity.Magic &&
+    !CONSUMABLE_CRAFTABLE_ITEM.has(item.category!) &&
+    !MAGIC_ONLY_OR_UNIQUE_ITEM.has(item.category!)
+  ) {
+    filters.rarity = {
+      value: 'magic',
+      disabled: true
     }
   } else if (
     item.rarity === ItemRarity.Normal ||
@@ -248,7 +269,8 @@ export function createFilters (
     item.rarity === ItemRarity.Rare
   ) {
     filters.rarity = {
-      value: 'nonunique'
+      value: 'nonunique',
+      disabled: false
     }
   }
 

@@ -32,13 +32,19 @@ export class HttpProxy {
       const proxyReq = net.request({
         url: 'https://' + req.url.slice('/proxy/'.length),
         method: req.method,
-        headers: {
-          ...req.headers,
-          'user-agent': app.userAgentFallback
-        },
+        //headers: {
+        //  ...req.headers,
+        //  'user-agent': app.userAgentFallback
+        //},
         useSessionCookies: true,
-        referrerPolicy: 'no-referrer-when-downgrade'
+        //referrerPolicy: 'no-referrer-when-downgrade'
       })
+      
+      for (let key in req.headers) {
+        proxyReq.setHeader(String(key), String(req.headers[key]));
+      }
+      proxyReq.setHeader('user-agent', app.userAgentFallback)
+      
       proxyReq.addListener('response', (proxyRes) => {
         const resHeaders = { ...proxyRes.headers }
         // `net.request` returns an already decoded body

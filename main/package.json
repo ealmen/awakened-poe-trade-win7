@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SnosMe/awakened-poe-trade.git"
+    "url": "https://github.com/ealmen/awakened-poe-trade-win7.git"
   },
   "main": "dist/main.js",
   "dependencies": {
@@ -25,7 +25,7 @@
     "@types/ws": "^8.18.1",
     "@wokwi/bmp-ts": "^3.0.0",
     "comlink": "^4.4.2",
-    "electron": "40.8.0",
+    "electron": "22.x.x",
     "electron-builder": "26.4.0",
     "electron-updater": "^6.7.3",
     "esbuild": "^0.27.2",
@@ -34,3 +34,4 @@
     "ws": "^8.19.0"
   }
 }
+

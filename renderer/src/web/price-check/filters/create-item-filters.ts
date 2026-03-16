@@ -26,7 +26,10 @@ export function createFilters (
     trade: {
       offline: false,
       onlineInLeague: false,
-      merchantOnly: item.category !== ItemCategory.DivinationCard,
+      merchantOnly:
+        // these are Divination Cards, and some items at start of league
+        // that are on Currency Exchange but was not added to Bulk section of site yet
+        !(item.info.exchangeable && !item.info.tradeTag),
       listed: undefined,
       currency: opts.currency,
       league: opts.league,
@@ -142,9 +145,11 @@ export function createFilters (
       }
     }
 
-    filters.mapTier = {
-      value: item.map!.tier,
-      disabled: false
+    if (item.map!.tier) {
+      filters.mapTier = {
+        value: item.map!.tier,
+        disabled: false
+      }
     }
   } else if (item.info.refName === 'Expedition Logbook') {
     filters.searchExact = {
@@ -428,48 +433,25 @@ function createGemFilters (
     value: item.isCorrupted
   }
 
-  if (item.info.gem!.awakened) {
-    filters.gemLevel = {
-      value: item.gemLevel!,
-      disabled: (item.gemLevel! < 5)
-    }
-
-    if (item.isCorrupted && item.quality) {
-      filters.quality = {
-        value: item.quality,
-        disabled: (item.quality < 20)
-      }
-    }
-
-    return filters
-  }
-
-  if (SPECIAL_SUPPORT_GEM.includes(item.info.refName)) {
-    filters.gemLevel = {
-      value: item.gemLevel!,
-      disabled: (item.gemLevel! < 3)
-    }
-
-    if (item.isCorrupted && item.quality) {
-      filters.quality = {
-        value: item.quality,
-        disabled: true
-      }
-    }
-
-    return filters
-  }
-
-  if (item.quality) {
-    filters.quality = {
-      value: item.quality,
-      disabled: (item.quality < 16)
+  if (!item.imbuedGem && item.isCorrupted && item.gemLevel! >= 20) {
+    filters.imbuedGem = {
+      disabled: true
     }
   }
 
   filters.gemLevel = {
     value: item.gemLevel!,
-    disabled: (item.gemLevel! < 19)
+    disabled: (item.gemLevel! < item.info.gem!.maxLevel)
+  }
+
+  if (item.quality) {
+    filters.quality = {
+      value: item.quality,
+      disabled: (item.info.gem!.maxLevel === 1) ? false
+        : (item.info.gem!.maxLevel === 20 && !item.info.gem!.transfigured)
+            ? (item.quality < 16)
+            : (item.quality < 20)
+    }
   }
 
   return filters

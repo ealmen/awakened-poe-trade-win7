@@ -1,8 +1,9 @@
 import { stat, pseudoStatByRef } from '@/assets/data'
 import { ItemRarity } from '@/parser/ParsedItem'
+import { ModifierType } from '@/parser/modifiers'
 import { FiltersCreationContext } from '../create-stat-filters'
 import { noSourcePseudoToFilter, propToFilter } from './item-property'
-import { findAndResolveByRef, explicitStatToNotFilter } from './utils'
+import { findAndResolveByRef, statToNotFilter } from './utils'
 
 const PSEUDO = {
   MORE_SCARABS: stat('More Scarabs: #%'),
@@ -22,7 +23,7 @@ export function mapProps (ctx: FiltersCreationContext): void {
 
   const hasMoreDrops = Boolean(item.map.moreMaps || item.map.moreScarabs || item.map.moreCurrency || item.map.moreDivCards)
 
-  if (!item.isCorrupted && !hasMoreDrops && item.map.tier !== 17) return
+  if (!item.isCorrupted && !hasMoreDrops && item.info.refName !== 'Nightmare Map') return
 
   if (item.map.itemQuantity) {
     ctx.filters.push(propToFilter({
@@ -98,8 +99,9 @@ export function valdoBadMods (ctx: FiltersCreationContext): void {
     if (ctx.item.statsByType.some(calc => calc.stat.ref === lethalStatRef)) continue
 
     const lethalStat = findAndResolveByRef(lethalStatRef, ctx.item.category)
-    const filter = explicitStatToNotFilter({
+    const filter = statToNotFilter({
       stat: lethalStat,
+      type: ModifierType.Explicit,
       disabled: false
     })
     ctx.filters.push(filter)

@@ -1,5 +1,8 @@
 <template>
   <div v-if="!error" class="layout-column min-h-0" style="height: auto;">
+    <div v-if="item.info.exchangeable" :class="$style.legacyMessage">
+      {{ t(':legacy_bulk_xchg_msg') }}
+    </div>
     <div class="mb-2 flex pl-2">
       <div class="flex items-baseline text-gray-500 mr-2">
         <span class="mr-1">{{ t(':matched') }}</span>
@@ -305,5 +308,12 @@ export default defineComponent({
   max-width: none;
   height: 1.25rem;
   vertical-align: bottom;
+}
+
+.legacyMessage {
+  @apply rounded p-2 mb-3;
+  @apply border border-gray-600 bg-gray-700;
+  text-wrap-style: balance;
+  text-align: center;
 }
 </style>

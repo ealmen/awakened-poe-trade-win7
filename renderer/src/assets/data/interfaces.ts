@@ -97,9 +97,9 @@ export interface BaseType {
   }
   gem?: {
     vaal?: true
-    awakened?: true
     transfigured?: true
     normalVariant?: BaseType['refName']
+    maxLevel: number
   }
   armour?: {
     ar?: [min: number, max: number]
